@@ -1,0 +1,240 @@
+<!Doctype html>
+<html>
+   <head>
+        <style> 
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #F5F0E6 0%,#8A9A82 20%,  #F5F0E6 100%);
+            color: #2d1b12;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(90, 47, 10, 0.12);
+            backdrop-filter: blur(8px);
+            padding: 32px 28px 40px;
+        }
+        h1 {
+            margin: 0 0 18px;
+            background: linear-gradient(135deg, #ff9f43, #ff7a18);
+            border-radius: 22px;
+            padding: 18px 22px;
+            font-weight: 700;
+            min-height: 50px;
+            width: fit-content;
+            min-width: 300px;
+            box-shadow: 0 10px 24px rgba(255, 122, 24, 0.25);
+            text-align: center;
+        }
+        .large {
+            font-size: 30px;
+            margin-top: 28px;
+        }
+        .title {
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            background: linear-gradient(135deg, #35b26b, rgb(108, 149, 135));
+            width: 100%;
+            text-align: center;
+            letter-spacing: 1px;
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(22, 114, 64, 0.25);
+        }
+        button {
+            background: linear-gradient(135deg, #1f7a46, #2fbf71);
+            border: none;
+            color: white;
+            padding: 16px 28px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 10px 0 18px;
+            cursor: pointer;
+            border-radius: 999px;
+            box-shadow: 0 10px 22px rgba(47, 191, 113, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(47, 191, 113, 0.32);
+        }
+        form {
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+        .choice-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 8px 0;
+        }
+        .choice-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px 0;
+        }
+        label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(106, 86, 60, 0.12);
+            transition: all 0.2s ease;
+        }
+        label:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-1px);
+        }
+        input[type="radio"], input[type="checkbox"] {
+            accent-color: #000000;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid rgba(116, 78, 42, 0.2);
+            margin: 20px 0;
+        }
+        #price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2f2a2a;
+            background: rgba(255,255,255,0.55);
+            border-radius: 14px;
+            display: inline-block;
+            padding: 12px 18px;
+            margin-top: 10px;
+        .choice-row {
+    display: flex;          /* Arrange labels horizontally */
+    flex-wrap: wrap;        /* Allow wrapping to new lines */
+    gap: 10px;              /* Space between checkboxes */
+}
+
+.choice-row-half {
+    flex: 1 1 100%;         /* Force each half to take full width */
+    display: flex;
+    gap: 10px;
+}
+        }
+        </style>
+<meta charset="UTF-8">
+<title>Pizza Order</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="title">Pizza Order</h1>
+            <hr>
+            <h1>Size</h1>
+            <form>
+                <div class="choice-group">
+                    <label>
+                        <input type="radio" name="size" value="Large $20"> Large $20
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="Medium $10"> Medium $10
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="Small $5"> Small $5
+                    </label>
+                </div>
+                <br>
+                <hr>
+            </form>
+
+            <h1 class="large">Toppings</h1>
+            <form>
+
+<div class="choice-row">
+    <!-- First half -->
+    <div class="choice-row-half">
+        <label>
+            <input type="checkbox" name="topping" value="Mushroom $2.50"> Mushroom $2.50
+        </label>
+        <label>
+            <input type="checkbox" name="topping" value="Olive $2.50"> Olive $2.50
+        </label>
+        <label>
+            <input type="checkbox" name="topping" value="Bell Pepper $2.50"> Bell Pepper $2.50
+        </label>
+    </div>
+
+    <!-- Second half -->
+    <div class="choice-row-half">
+        <label>
+            <input type="checkbox" name="topping" value="Meat $2.50"> Meat $2.50
+        </label>
+        <label>
+            <input type="checkbox" name="topping" value="Jalepeno $2.50"> Jalepeno $2.50
+        </label>
+        <label>
+            <input type="checkbox" name="topping" value="Pineapple $2.50"> Pineapple $2.50
+        </label>
+    </div>
+</div>
+                </form>
+                <hr>
+                <div id="price">Total Price: </div>
+                <br>
+                <button onclick="generateTicketNumber()">Place Order</button>
+        </div>
+    <script>
+    function getPriceFromValue(value) {
+        const match = value.match(/\$(\d+(?:\.\d+)?)/);
+        return match ? parseFloat(match[1]) : 0;
+    }
+
+    function showPrice() {
+        const checkedSize = document.querySelector('input[name="size"]:checked');
+        const checkedToppings = document.querySelectorAll('input[name="topping"]:checked');
+        const priceElement = document.getElementById('price');
+
+        if (!checkedSize) {
+            priceElement.textContent = 'Total Price: ';
+            return;
+        }
+
+        const sizePrice = getPriceFromValue(checkedSize.value);
+        const toppingsPrice = Array.from(checkedToppings).reduce((total, topping) => {
+            return total + getPriceFromValue(topping.value);
+        }, 0);
+
+        priceElement.textContent = 'Total Price: $' + (sizePrice + toppingsPrice).toFixed(2);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input[name="size"], input[name="topping"]').forEach((input) => {
+            input.addEventListener('change', showPrice);
+        });
+    });
+    function generateTicketNumber() {
+        const randomNumber = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
+        alert("Thank you for your order! Your ticket number is: " + randomNumber + " and your total price is: " + document.getElementById("price").textContent.split("$")[1]);
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        });
+        document.querySelectorAll('input[type="radio"]').forEach(rb => {
+        rb.checked = false;
+        });
+    }
+    </script>
+</body>
+</html>
