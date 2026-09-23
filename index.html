@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Order</title>
+    <style>
+        :root {
+            --cream: #f5f0e6;
+            --sage: #8a9a82;
+            --ink: #2d1b12;
+            --muted: #6b6258;
+            --green: #1f7a46;
+            --green-light: #2fbf71;
+            --orange: #ff861f;
+            --orange-light: #ffb45f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+            display: grid;
+            place-items: center;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 88% 12%, rgba(255, 159, 67, 0.28), transparent 28%),
+                linear-gradient(135deg, var(--cream) 0%, var(--sage) 52%, var(--cream) 100%);
+        }
+
+        .shell {
+            width: min(100%, 1060px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.76);
+            box-shadow: 0 28px 70px rgba(90, 47, 10, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 24px 32px;
+            border-bottom: 1px solid rgba(116, 78, 42, 0.14);
+        }
+
+        .brand {
+            color: var(--green);
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+        }
+
+        nav a,
+        .button {
+            color: var(--green);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #155b34;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            gap: 48px;
+            align-items: center;
+            padding: 68px 64px 54px;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--orange);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 560px;
+            margin: 0;
+            font-size: clamp(2.8rem, 7vw, 5.4rem);
+            line-height: 0.98;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-copy {
+            max-width: 500px;
+            margin: 22px 0 30px;
+            color: var(--muted);
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
+            padding: 15px 24px;
+            border-radius: 999px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--green), var(--green-light));
+            box-shadow: 0 10px 22px rgba(47, 191, 113, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(47, 191, 113, 0.34);
+        }
+
+        .button.secondary {
+            color: var(--ink);
+            background: linear-gradient(135deg, var(--orange-light), var(--orange));
+            box-shadow: 0 10px 22px rgba(255, 134, 31, 0.25);
+        }
+
+        .pizza-panel {
+            position: relative;
+            min-height: 330px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #2e774d, #8a9a82);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), 0 18px 36px rgba(31, 90, 53, 0.2);
+        }
+
+        .pizza-panel::before,
+        .pizza-panel::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .pizza-panel::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .pizza-panel::after {
+            width: 210px;
+            height: 210px;
+        }
+
+        .pizza-mark {
+            position: relative;
+            z-index: 1;
+            width: 168px;
+            height: 168px;
+            display: grid;
+            place-items: center;
+            border: 14px solid #d88b43;
+            border-radius: 50%;
+            color: #fff3d6;
+            background: #e9b866;
+            box-shadow: inset 0 0 0 8px #f8d696, 0 16px 24px rgba(45, 27, 18, 0.2);
+            font-size: 5.5rem;
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(116, 78, 42, 0.14);
+        }
+
+        .feature {
+            padding: 24px 30px;
+            background: rgba(255, 255, 255, 0.38);
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--green);
+        }
+
+        .feature span {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 12px;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 44px 24px 36px;
+            }
+
+            .pizza-panel {
+                min-height: 240px;
+            }
+
+            .feature-row {
+                grid-template-columns: 1fr;
+            }
+
+            .feature {
+                padding: 18px 24px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav {
+                gap: 14px;
+            }
+
+            .actions,
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <header>
+            <div class="brand">Pizza Order</div>
+            <nav aria-label="Account navigation">
+                <a href="./login.html">Log in</a>
+                <a href="./Signup.html">Sign up</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Fresh choices. Your way.</p>
+                <h1>Build a pizza worth sharing.</h1>
+                <p class="hero-copy">Choose your size, pile on your favorite toppings, and make every order feel like your own recipe.</p>
+                <div class="actions">
+                    <a class="button secondary" href="./Signup.html">Create an account</a>
+                    <a class="button" href="./login.html">Log in</a>
+                </div>
+            </div>
+
+            <div class="pizza-panel" aria-label="Pizza illustration">
+                <div class="pizza-mark" aria-hidden="true">🍕</div>
+            </div>
+        </section>
+
+        <section class="feature-row" aria-label="Ordering benefits">
+            <div class="feature">
+                <strong>Pick your base</strong>
+                <span>Choose the size that fits the moment.</span>
+            </div>
+            <div class="feature">
+                <strong>Make it yours</strong>
+                <span>Mix and match toppings until it feels right.</span>
+            </div>
+            <div class="feature">
+                <strong>Track your order</strong>
+                <span>Get a ticket number when your pizza is placed.</span>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

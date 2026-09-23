@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Pizza Order</title>
+    <style>
+        :root {
+            --cream: #f5f0e6;
+            --sage: #8a9a82;
+            --ink: #2d1b12;
+            --muted: #6b6258;
+            --green: #1f7a46;
+            --green-light: #2fbf71;
+            --orange: #ff861f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: grid;
+            place-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(255, 159, 67, 0.22), transparent 30%),
+                linear-gradient(135deg, var(--cream) 0%, var(--sage) 48%, var(--cream) 100%);
+        }
+
+        .container {
+            width: min(100%, 560px);
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            border-radius: 28px;
+            box-shadow: 0 24px 60px rgba(90, 47, 10, 0.18);
+            backdrop-filter: blur(10px);
+        }
+
+        .title {
+            margin: 0 0 12px;
+            padding: 20px 22px;
+            border-radius: 22px;
+            color: #fff;
+            text-align: center;
+            font-size: clamp(2rem, 7vw, 3rem);
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #35b26b, #6c9587);
+            box-shadow: 0 10px 24px rgba(22, 114, 64, 0.25);
+        }
+
+        .intro {
+            margin: 0 6px 26px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(106, 86, 60, 0.22);
+            border-radius: 14px;
+            outline: none;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.72);
+            font: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #9a9187;
+        }
+
+        input:hover {
+            background: #fff;
+        }
+
+        input:focus {
+            border-color: var(--green-light);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(47, 191, 113, 0.16);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 6px;
+            padding: 15px 28px;
+            border: 0;
+            border-radius: 999px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--green), var(--green-light));
+            box-shadow: 0 10px 22px rgba(47, 191, 113, 0.28);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(47, 191, 113, 0.34);
+        }
+
+        button:focus-visible {
+            outline: 3px solid rgba(255, 134, 31, 0.55);
+            outline-offset: 3px;
+        }
+
+        .accent-line {
+            width: 72px;
+            height: 4px;
+            margin: 0 auto 22px;
+            border-radius: 999px;
+            background: var(--orange);
+        }
+
+        .switch-link {
+            margin: 22px 0 0;
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .switch-link a {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .form-alert {
+            margin: 0 0 20px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 134, 31, 0.35);
+            border-left: 5px solid var(--orange);
+            border-radius: 12px;
+            color: #704016;
+            background: rgba(255, 244, 224, 0.94);
+            font-size: 0.92rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .container {
+                padding: 22px 18px 24px;
+                border-radius: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1 class="title">Login</h1>
+        <div class="accent-line" aria-hidden="true"></div>
+        <p class="intro">Please enter your credentials to access your account.</p>
+        <div class="form-alert" id="formAlert" role="alert" aria-live="assertive" hidden></div>
+
+        <form id="loginForm">
+            <div class="field">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" autocomplete="username" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+        <p class="switch-link">Need an account? <a href="./Signup.html">Sign up</a></p>
+    </main>
+
+<script>
+
+const form = document.getElementById("loginForm");
+const formAlert = document.getElementById("formAlert");
+
+function showFormAlert(message) {
+    formAlert.textContent = message;
+    formAlert.hidden = false;
+}
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    let savedAccount;
+
+    try {
+        savedAccount = JSON.parse(localStorage.getItem("pizzaAccount"));
+    } catch (error) {
+        savedAccount = null;
+    }
+
+    if (!savedAccount || savedAccount.username !== username || savedAccount.password !== password) {
+        showFormAlert("Incorrect username or password. Please sign up first or try again.");
+        return;
+    }
+
+    localStorage.setItem("username", username);
+    localStorage.setItem("currentUser", username);
+    window.location.href = "./pizza_order.html";
+
+});
+
+</script>
+
+</body>
+</html>

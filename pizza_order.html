@@ -135,13 +135,103 @@
     gap: 10px;
 }
         }
+        .account-menu {
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 18px;
+        }
+        .account-button {
+            width: auto;
+            margin: 0;
+            padding: 10px 16px;
+            font-size: 14px;
+        }
+        .account-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            z-index: 5;
+            width: 220px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 16px 30px rgba(90, 47, 10, 0.18);
+        }
+        .account-panel p {
+            margin: 0 0 12px;
+            color: #6b6258;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+        .sign-out-button {
+            width: 100%;
+            margin: 0;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #b84b32, #df7042);
+            box-shadow: 0 8px 16px rgba(184, 75, 50, 0.2);
+        }
+        [hidden] {
+            display: none;
+        }
+        .alert-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin: 0 0 20px;
+            padding: 12px 14px 12px 16px;
+            border: 1px solid rgba(31, 122, 70, 0.24);
+            border-left: 5px solid #2fbf71;
+            border-radius: 12px;
+            color: #245536;
+            background: rgba(229, 248, 235, 0.9);
+            box-shadow: 0 8px 18px rgba(31, 122, 70, 0.1);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .alert-box.is-warning {
+            border-color: rgba(255, 134, 31, 0.35);
+            border-left-color: #ff861f;
+            color: #704016;
+            background: rgba(255, 244, 224, 0.94);
+        }
+        .alert-close {
+            width: auto;
+            margin: 0;
+            padding: 2px 8px;
+            color: inherit;
+            background: transparent;
+            box-shadow: none;
+            font-size: 20px;
+            line-height: 1;
+        }
+        .alert-close:hover {
+            transform: none;
+            box-shadow: none;
+            background: rgba(0, 0, 0, 0.06);
+        }
         </style>
 <meta charset="UTF-8">
 <title>Pizza Order</title>
     </head>
     <body>
         <div class="container">
+            <div class="account-menu">
+                <button class="account-button" id="accountButton" type="button" aria-expanded="false">
+                    <span id="accountName">Account</span> &#9662;
+                </button>
+                <div class="account-panel" id="accountPanel" hidden>
+                    <p id="accountMessage"></p>
+                    <button class="sign-out-button" id="signOutButton" type="button">Sign out</button>
+                </div>
+            </div>
             <h1 class="title">Pizza Order</h1>
+            <div class="alert-box" id="alertBox" role="status" aria-live="polite" hidden>
+                <span id="alertText"></span>
+                <button class="alert-close" id="alertClose" type="button" aria-label="Dismiss notification">&times;</button>
+            </div>
             <hr>
             <h1>Size</h1>
             <form>
@@ -197,6 +287,54 @@
                 <button onclick="generateTicketNumber()">Place Order</button>
         </div>
     <script>
+    let savedAccount;
+
+    try {
+        savedAccount = JSON.parse(localStorage.getItem("pizzaAccount"));
+    } catch (error) {
+        savedAccount = null;
+    }
+
+    const username = localStorage.getItem("currentUser");
+    const accountButton = document.getElementById("accountButton");
+    const accountPanel = document.getElementById("accountPanel");
+    const accountName = document.getElementById("accountName");
+    const accountMessage = document.getElementById("accountMessage");
+    const signOutButton = document.getElementById("signOutButton");
+    const alertBox = document.getElementById("alertBox");
+    const alertText = document.getElementById("alertText");
+    const alertClose = document.getElementById("alertClose");
+
+    function showAlert(message, warning = false) {
+        alertText.textContent = message;
+        alertBox.classList.toggle("is-warning", warning);
+        alertBox.hidden = false;
+    }
+
+    alertClose.addEventListener("click", function() {
+        alertBox.hidden = true;
+    });
+
+    if (!savedAccount || !username || savedAccount.username !== username) {
+        window.location.href = "./login.html";
+    } else {
+        accountName.textContent = username;
+        accountMessage.textContent = "Signed in as " + username;
+        showAlert("Welcome back, " + username + ". Choose a size to get started.");
+    }
+
+    accountButton.addEventListener("click", function() {
+        const isOpen = !accountPanel.hasAttribute("hidden");
+        accountPanel.hidden = isOpen;
+        accountButton.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    signOutButton.addEventListener("click", function() {
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("username");
+        window.location.href = "./login.html";
+    });
+
     function getPriceFromValue(value) {
         const match = value.match(/\$(\d+(?:\.\d+)?)/);
         return match ? parseFloat(match[1]) : 0;
@@ -218,6 +356,8 @@
         }, 0);
 
         priceElement.textContent = 'Total Price: $' + (sizePrice + toppingsPrice).toFixed(2);
+    const toppingCount = checkedToppings.length;
+    showAlert(checkedSize.value.split(" $")[0] + " pizza selected" + (toppingCount ? " with " + toppingCount + " topping" + (toppingCount === 1 ? "" : "s") + "." : "."));
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -227,7 +367,9 @@
     });
     function generateTicketNumber() {
         const randomNumber = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
-        alert("Thank you for your order! Your ticket number is: " + randomNumber + " and your total price is: " + document.getElementById("price").textContent.split("$")[1]);
+        const username = localStorage.getItem("username");
+        const totalPrice = document.getElementById("price").textContent.split("$")[1];
+        showAlert("Order placed! Ticket #" + randomNumber + " for $" + (totalPrice || "0.00") + ".", false);
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
         cb.checked = false;
         });
